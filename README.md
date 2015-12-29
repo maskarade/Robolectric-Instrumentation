@@ -40,11 +40,13 @@ public class ExampleTest {
 }
 ```
 
-## Android Instrumentation and Runners
+## Android Instrumentation Framework
+
+There are part of `com.android.support.test:runner:0.4.1` API.
 
 * `@RunWith(AndroidJUnit4.class)`
 * `InstrumentationRegistry.getTargetContext()`
-* `InstrumentationRegistry.getInstrumentation()` (partially supported)
+* `InstrumentationRegistry.getInstrumentation()`
 
 ## Espresso
 
@@ -82,7 +84,7 @@ Second, rewrite your test cases to use Android Instrumentation Framework, instea
 - @Config(constants = BuildConfig.class, sdk = 16)
 ```
 
-```
+```diff
 + Context context = InstrumentationRegistry.getContext();
 - Context context = RuntimeEnvironment.application;
 ```
@@ -93,7 +95,7 @@ Then, make a symlink to `androidTest`.
 (cd app/src && ln -s test androidTest)
 ```
 
-Now you can run `./gradlew connectedAndroidTest`.
+Now you can run `./gradlew connectedAndroidTest`!
 
 ## Versioning
 
