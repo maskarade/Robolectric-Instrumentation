@@ -41,6 +41,14 @@ public class ExampleTest {
 }
 ```
 
+# Versioning
+
+This library does not adopt semantic versioning. Rather, the first two
+parts indicates the compatbile version of Robolectric. That is,
+this version is currently compatible with Robolectric v3.0.
+
+The third part of the version is the revision of this library.
+
 # Author
 
 FUJI Goro ([gfx](https://github.com/gfx)).
