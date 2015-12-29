@@ -1,9 +1,9 @@
-# RobolectricInstrumentation
+# robolectric-instrumentation
 
 This is a wrapper for [Robolectric](http://robolectric.org/)
 to provide the interface of Android Instrumentation Testing Framework.
 
-# SYNOPSIS
+## Synopsis
 
 Let it work on **Robolectric**, as well as Android Instrumentation:
 
@@ -41,7 +41,16 @@ public class ExampleTest {
 }
 ```
 
-# Versioning
+
+## Install
+
+```gradle
+dependencies {
+    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.0
+}
+```
+
+## Versioning
 
 This library does not adopt semantic versioning. Rather, the first two
 parts indicates the compatbile version of Robolectric. That is,
@@ -49,11 +58,16 @@ this version is currently compatible with Robolectric v3.0.
 
 The third part of the version is the revision of this library.
 
-# Author
+## See Also
+
+* [Testing Fundamentals | Android Developers](http://developer.android.com/intl/ja/tools/testing/testing_android.html)
+*
+
+## Author
 
 FUJI Goro ([gfx](https://github.com/gfx)).
 
-# License
+## License
 
 Copyright (c) 2015 FUJI Goro (gfx).
 

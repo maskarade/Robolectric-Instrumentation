@@ -43,6 +43,35 @@ public class AndroidJUnit4 extends RobolectricGradleTestRunner {
         super(testClass);
     }
 
+    private static String getType(Config config) {
+        try {
+            return ReflectionHelpers.getStaticField(config.constants(), "BUILD_TYPE");
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
+    private static String getFlavor(Config config) {
+        try {
+            return ReflectionHelpers.getStaticField(config.constants(), "FLAVOR");
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
+    private static String getPackageName(Config config) {
+        try {
+            final String packageName = config.packageName();
+            if (packageName != null && !packageName.isEmpty()) {
+                return packageName;
+            } else {
+                return ReflectionHelpers.getStaticField(config.constants(), "APPLICATION_ID");
+            }
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
     @Override
     protected AndroidManifest getAppManifest(Config config) {
         if (config.constants() == null || config.constants().equals(Void.class)) {
@@ -108,36 +137,6 @@ public class AndroidJUnit4 extends RobolectricGradleTestRunner {
             configProperties = super.getConfigProperties();
         }
         return configProperties;
-    }
-
-
-    private static String getType(Config config) {
-        try {
-            return ReflectionHelpers.getStaticField(config.constants(), "BUILD_TYPE");
-        } catch (Throwable e) {
-            return null;
-        }
-    }
-
-    private static String getFlavor(Config config) {
-        try {
-            return ReflectionHelpers.getStaticField(config.constants(), "FLAVOR");
-        } catch (Throwable e) {
-            return null;
-        }
-    }
-
-    private static String getPackageName(Config config) {
-        try {
-            final String packageName = config.packageName();
-            if (packageName != null && !packageName.isEmpty()) {
-                return packageName;
-            } else {
-                return ReflectionHelpers.getStaticField(config.constants(), "APPLICATION_ID");
-            }
-        } catch (Throwable e) {
-            return null;
-        }
     }
 
 }

@@ -23,7 +23,6 @@ public class ExampleTest {
         assertThat(InstrumentationRegistry.getTargetContext(), is(instanceOf(Context.class)));
     }
 
-
     @Test
     public void testGetString() throws Exception {
         Context context = InstrumentationRegistry.getTargetContext();
