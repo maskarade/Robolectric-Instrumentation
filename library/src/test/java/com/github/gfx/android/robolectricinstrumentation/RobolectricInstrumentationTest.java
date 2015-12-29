@@ -17,4 +17,11 @@ public class RobolectricInstrumentationTest {
     public void testGetContext() throws Exception {
         assertThat(InstrumentationRegistry.getTargetContext(), is(instanceOf(Context.class)));
     }
+
+    @Test
+    public void testGetString() throws Exception {
+        String s = InstrumentationRegistry.getTargetContext().getString(R.string.app_name);
+
+        assertThat(s, is("RobolectricInstrumentation"));
+    }
 }
