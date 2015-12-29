@@ -54,7 +54,7 @@ Not supported.
 
 ```gradle
 dependencies {
-    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.0
+    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.1
 }
 ```
 
