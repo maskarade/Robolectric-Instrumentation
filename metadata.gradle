@@ -1,0 +1,8 @@
+ext {
+    metadata = [
+            groupId   : 'com.github.gfx.android.robolectricinstrumentation',
+            website   : 'https://github.com/gfx/RobolectricInstrumentation',
+            repository: 'git@github.com:gfx/RobolectricInstrumentation.git',
+            licences  : ['Apache 2.0 License']
+    ]
+}

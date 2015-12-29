@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'com.novoda.bintray-release'
 
 targetCompatibility = JavaVersion.VERSION_1_7
 sourceCompatibility = JavaVersion.VERSION_1_7
@@ -17,3 +18,16 @@ dependencies {
     compile 'junit:junit:4.12'
     compile 'org.robolectric:robolectric:3.0'
 }
+
+publish {
+    artifactId = 'robolectric-instrumentation'
+    desc = 'A wrapper for Robolectric to provide the Android Instrumentation Testing Framework compatible functionality'
+
+    def metadata = project.rootProject.ext.metadata
+    groupId = metadata.groupId
+    publishVersion = metadata.version
+    website = metadata.website
+    repository = metadata.repository
+    licences = metadata.licences
+}
+
