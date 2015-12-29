@@ -25,6 +25,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.test.internal.runner.lifecycle.ActivityLifecycleMonitorImpl;
+import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import android.support.test.runner.lifecycle.Stage;
 
 /**
  * {@link InstrumentationRegistry} compatibility wrapper for Robolectric.
@@ -49,6 +52,11 @@ public class InstrumentationRegistry {
 
     static class InstrumentationImpl extends Instrumentation {
 
+        final ActivityLifecycleMonitorImpl activityLifecycleMonitor = new ActivityLifecycleMonitorImpl();
+
+        public InstrumentationImpl() {
+        }
+
         @NonNull
         @Override
         public Context getTargetContext() {
@@ -70,7 +78,12 @@ public class InstrumentationRegistry {
                 throw new RuntimeException(e);
             }
 
-            return Robolectric.setupActivity(cls);
+            Activity activity = Robolectric.setupActivity(cls);
+            ActivityLifecycleMonitorRegistry.registerInstance(activityLifecycleMonitor);
+            activityLifecycleMonitor.signalLifecycleChange(Stage.CREATED, activity);
+            activityLifecycleMonitor.signalLifecycleChange(Stage.STARTED, activity);
+            activityLifecycleMonitor.signalLifecycleChange(Stage.RESUMED, activity);
+            return activity;
         }
 
         @Override
