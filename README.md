@@ -44,7 +44,7 @@ public class ExampleTest {
 
 * `@RunWith(AndroidJUnit4.class)`
 * `InstrumentationRegistry.getTargetContext()`
-* `InstrumentationRegistry.getInstrumentation()`
+* `InstrumentationRegistry.getInstrumentation()` (partially supported)
 
 ## Espresso
 
@@ -53,10 +53,47 @@ Not supported.
 ## Install
 
 ```gradle
+android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
 dependencies {
     testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.2'
 }
 ```
+
+Suppose your have an Android application project with `app` sub-project, which
+already have test suite with Robolectric.
+
+First, you have to make a Robolectric configuration file as
+`app/src/resources/roblectric.properties` with the following contents:
+
+```properties
+# this is robolectric-instrumentation specific configuration:
+project=app
+# and other Robolectric configurations
+constants=com.example.app.BuildConfig
+sdk=16
+```
+
+Second, rewrite your test cases to use Android Instrumentation Framework, instead of raw Robolectric API.
+
+```diff
++ @RunWith(AndroidJUnit4.class)
+- @RunWith(RobolectricGradleTestRunner.class)
+- @Config(constants = BuildConfig.class, sdk = 16)
+```
+
+```
++ Context context = InstrumentationRegistry.getContext();
+- Context context = RuntimeEnvironment.application;
+```
+
+Then, make a symlink to `androidTest`.
+
+```sh
+(cd app/src && ln -s test androidTest)
+```
+
+Now you can run `./gradlew connectedAndroidTest`.
 
 ## Versioning
 
