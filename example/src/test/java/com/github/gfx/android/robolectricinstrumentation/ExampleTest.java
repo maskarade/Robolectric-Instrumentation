@@ -23,6 +23,13 @@ public class ExampleTest {
         assertThat(InstrumentationRegistry.getTargetContext(), is(instanceOf(Context.class)));
     }
 
+
+    @Test
+    public void testGetString() throws Exception {
+        Context context = InstrumentationRegistry.getTargetContext();
+        assertThat(context.getString(R.string.app_name), is("RobolectricInstrumentation"));
+    }
+
     @Test
     public void testCreateActivity() throws Exception {
         MainActivity mainActivity = mainActivityRule.getActivity();
