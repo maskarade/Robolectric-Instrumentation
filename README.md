@@ -1,4 +1,5 @@
-# robolectric-instrumentation
+# robolectric-instrumentation [ ![Download](https://api.bintray.com/packages/gfx/maven/robolectric-instrumentation/images/download.svg) ](https://bintray.com/gfx/maven/robolectric-instrumentation/)
+
 
 This is a wrapper for [Robolectric](http://robolectric.org/)
 to provide the interface of Android Instrumentation Testing Framework.
