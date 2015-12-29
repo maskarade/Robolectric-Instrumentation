@@ -26,7 +26,9 @@ public class ActivityTest {
         assertThat(mainActivity, is(instanceOf(MainActivity.class)));
     }
 
-    @Ignore("ShadowMessageQueue#nativePollOnce() is called in perform()")
+    // NOTE: android.support.test.espresso.base.QueueInterrogator calls MessageQueue#next() via reflection,
+    // which is not implemented in robolectric ShadowMessageQueue.
+    @Ignore("ShadowMessageQueue#nativePollOnce() raises AssertionError, which is called in perform()")
     @Test
     public void testPerformClick() throws Exception {
         onView(withId(R.id.button))

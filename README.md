@@ -25,22 +25,29 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ExampleTest {
 
-    @Rule
-    public ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(MainActivity.class);
-
     @Test
     public void testGetContext() throws Exception {
-        assertThat(InstrumentationRegistry.getTargetContext(), is(instanceOf(Context.class)));
+        Context context = InstrumentationRegistry.getTargetContext();
+        assertThat(context, is(instanceOf(Context.class)));
     }
 
     @Test
-    public void testCreateActivity() throws Exception {
-        MainActivity mainActivity = mainActivityRule.getActivity();
-        assertThat(mainActivity, is(instanceOf(MainActivity.class)));
+    public void testGetString() throws Exception {
+        Context context = InstrumentationRegistry.getTargetContext();
+        assertThat(context.getString(R.string.app_name), is("RobolectricInstrumentation"));
     }
 }
 ```
 
+## Android Instrumentation and Runners
+
+* `@RunWith(AndroidJUnit4.class)`
+* `InstrumentationRegistry.getTargetContext()`
+* `InstrumentationRegistry.getInstrumentation()`
+
+## Espresso
+
+Not supported.
 
 ## Install
 
