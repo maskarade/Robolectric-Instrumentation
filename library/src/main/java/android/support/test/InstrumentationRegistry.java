@@ -40,7 +40,7 @@ public class InstrumentationRegistry {
 
     @NonNull
     public static Context getTargetContext() {
-        return instrumentation.getTargetContext();
+        return getInstrumentation().getTargetContext();
     }
 
     public static Instrumentation getInstrumentation() {
