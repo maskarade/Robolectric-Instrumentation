@@ -9,6 +9,9 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
@@ -33,5 +36,12 @@ public class ExampleTest {
     public void testCreateActivity() throws Exception {
         MainActivity mainActivity = mainActivityRule.getActivity();
         assertThat(mainActivity, is(instanceOf(MainActivity.class)));
+    }
+
+    @Test
+    public void testPerformClick() throws Exception {
+        onView(withId(R.id.button))
+                .perform(click());
+
     }
 }
