@@ -7,7 +7,7 @@ to provide the interface of Android Instrumentation Testing Framework.
 
 Let it work on **Robolectric**, as well as Android Instrumentation:
 
-```
+```java
 package com.github.gfx.android.robolectricinstrumentation;
 
 import org.junit.Rule;
