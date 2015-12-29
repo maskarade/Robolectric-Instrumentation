@@ -14,14 +14,7 @@ import static org.junit.Assert.*;
 public class RobolectricInstrumentationTest {
 
     @Test
-    public void testGetContext() throws Exception {
+    public void testWithoutConfiguration() throws Exception {
         assertThat(InstrumentationRegistry.getTargetContext(), is(instanceOf(Context.class)));
-    }
-
-    @Test
-    public void testGetString() throws Exception {
-        String s = InstrumentationRegistry.getTargetContext().getString(R.string.app_name);
-
-        assertThat(s, is("RobolectricInstrumentation"));
     }
 }

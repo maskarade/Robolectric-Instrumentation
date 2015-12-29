@@ -1,14 +1,30 @@
+final ANDROID_SUPPORT_REPOSITORY = {
+    // to use android support libraries in Java projects
+    final localProperties = new Properties()
+    localProperties.load(new FileInputStream("${project.rootProject.projectDir}/local.properties"))
+    def androidSdkPath = localProperties['sdk.dir'] ?: System.getenv('ANDROID_HOME')
+    if (!androidSdkPath) {
+        throw new RuntimeException("Missing local.properties")
+    }
+    "${androidSdkPath}/extras/android/m2repository"
+}()
+
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.novoda:bintray-release:0.3.4' // https://github.com/novoda/bintray-release
     }
 }
 
 allprojects {
     repositories {
+        maven {
+            url ANDROID_SUPPORT_REPOSITORY
+        }
+
         jcenter()
     }
 }
