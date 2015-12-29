@@ -45,7 +45,7 @@ public class AndroidJUnit4 extends RobolectricGradleTestRunner {
 
     @Override
     protected AndroidManifest getAppManifest(Config config) {
-        if (config.constants().equals(Void.class)) {
+        if (config.constants() == null || config.constants().equals(Void.class)) {
             return null;
         }
 
