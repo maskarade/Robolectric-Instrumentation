@@ -1,4 +1,4 @@
-# robolectric-instrumentation [ ![Download](https://api.bintray.com/packages/gfx/maven/robolectric-instrumentation/images/download.svg) ](https://bintray.com/gfx/maven/robolectric-instrumentation/)
+# Robolectric Instrumentation [ ![Download](https://api.bintray.com/packages/gfx/maven/robolectric-instrumentation/images/download.svg) ](https://bintray.com/gfx/maven/robolectric-instrumentation/)
 
 
 This is a wrapper for [Robolectric](http://robolectric.org/)
@@ -6,7 +6,7 @@ to provide the interface of Android Instrumentation Testing Framework.
 
 ## Synopsis
 
-Let it work on **Robolectric**, as well as Android Instrumentation:
+Let it work on **Robolectric**, as well as Android Instrumentation Testing:
 
 ```java
 package com.github.gfx.android.robolectricinstrumentation;
@@ -40,33 +40,36 @@ public class ExampleTest {
 }
 ```
 
-## Android Instrumentation Framework
+## How It Works
 
-There are part of `com.android.support.test:runner:0.4.1` API.
+This library implements part of `com.android.support.test:runner:0.4.1`,
+which provides Android Instrumentation Framework, i.e. JUnit4 runners and `InstrumentationRegistry`.
+
+### Android Instrumentation Framework
 
 * `@RunWith(AndroidJUnit4.class)`
 * `InstrumentationRegistry.getTargetContext()`
 * `InstrumentationRegistry.getInstrumentation()`
 
-## Espresso
+### Espresso
 
 Not supported.
 
 ## Install
 
 ```gradle
-android.defaultConfig.testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
 dependencies {
     testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.2'
 }
 ```
 
+## Getting Started
+
 Suppose your have an Android application project with `app` sub-project, which
 already have test suite with Robolectric.
 
 First, you have to make a Robolectric configuration file as
-`app/src/resources/roblectric.properties` with the following contents:
+`app/src/test/resources/roblectric.properties` with the following contents:
 
 ```properties
 # this is robolectric-instrumentation specific configuration:
