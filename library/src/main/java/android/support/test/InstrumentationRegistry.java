@@ -43,6 +43,7 @@ public class InstrumentationRegistry {
         return getInstrumentation().getTargetContext();
     }
 
+    @NonNull
     public static Instrumentation getInstrumentation() {
         if (instrumentation == null) {
             instrumentation = new InstrumentationImpl();
@@ -84,6 +85,11 @@ public class InstrumentationRegistry {
             activityLifecycleMonitor.signalLifecycleChange(Stage.STARTED, activity);
             activityLifecycleMonitor.signalLifecycleChange(Stage.RESUMED, activity);
             return activity;
+        }
+
+        @Override
+        public void runOnMainSync(@NonNull Runnable runner) {
+            runner.run();
         }
 
         @Override

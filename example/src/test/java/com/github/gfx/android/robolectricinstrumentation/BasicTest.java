@@ -10,6 +10,9 @@ import android.support.test.runner.AndroidJUnit4;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+/**
+ * Non-UI tests work both on Robolectric and Android Instrumentation.
+ */
 @RunWith(AndroidJUnit4.class)
 public class BasicTest {
 
