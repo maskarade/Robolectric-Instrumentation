@@ -59,7 +59,7 @@ Not supported.
 
 ```gradle
 dependencies {
-    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.2'
+    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.3'
 }
 ```
 
