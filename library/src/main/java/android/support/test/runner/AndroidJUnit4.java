@@ -98,10 +98,11 @@ public class AndroidJUnit4 extends RobolectricGradleTestRunner {
             res = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "res");
         }
 
-        if (FileFsFile.from(project, BUILD_OUTPUT, "assets").exists()) {
-            assets = FileFsFile.from(project, BUILD_OUTPUT, "assets", flavor, type);
+        // Android JVM unit testing does not make build/intermediates/assets/*
+        if (FileFsFile.from(project, "src", "test", "assets").exists()) {
+            assets = FileFsFile.from(project, "src", "test", "assets");
         } else {
-            assets = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "assets");
+            assets = FileFsFile.from(project, "src", "test", "res", "assets");
         }
 
         if (FileFsFile.from(project, BUILD_OUTPUT, "manifests").exists()) {

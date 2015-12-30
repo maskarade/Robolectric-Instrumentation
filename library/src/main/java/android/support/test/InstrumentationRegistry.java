@@ -44,6 +44,11 @@ public class InstrumentationRegistry {
     }
 
     @NonNull
+    public static Context getContext() {
+        return getInstrumentation().getTargetContext();
+    }
+
+    @NonNull
     public static Instrumentation getInstrumentation() {
         if (instrumentation == null) {
             instrumentation = new InstrumentationImpl();
@@ -66,6 +71,12 @@ public class InstrumentationRegistry {
             }
 
             return RuntimeEnvironment.application;
+        }
+
+        @NonNull
+        @Override
+        public Context getContext() {
+            return getTargetContext();
         }
 
         @SuppressWarnings("unchecked")

@@ -7,7 +7,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -25,5 +25,11 @@ public class BasicTest {
     public void testGetString() throws Exception {
         Context context = InstrumentationRegistry.getTargetContext();
         assertThat(context.getString(R.string.app_name), is("RobolectricInstrumentation"));
+    }
+
+    @Test
+    public void testAssets() throws Exception {
+        Context context = InstrumentationRegistry.getContext();
+        assertThat(context.getAssets().open("test.json").available(), is(greaterThan(0)));
     }
 }
