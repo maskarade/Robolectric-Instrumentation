@@ -26,6 +26,10 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ExampleTest {
 
+    boolean runOnAndroid() {
+        return System.getProperty("java.vm.name").equals("Dalvik");
+    }
+
     @Test
     public void testGetContext() throws Exception {
         Context context = InstrumentationRegistry.getTargetContext();
@@ -36,6 +40,15 @@ public class ExampleTest {
     public void testGetString() throws Exception {
         Context context = InstrumentationRegistry.getTargetContext();
         assertThat(context.getString(R.string.app_name), is("RobolectricInstrumentation"));
+    }
+
+    // Because Robolectric-Instrumentation is limited, you can skip tests
+    // that only work with Android Instrumentation.
+    public void testPerformClickWithEspresso() throws Exception {
+        assumeTrue("Robolectric-Instrumentation does not support Espresso", runOnAndroid());
+
+        onView(withId(R.id.button))
+                .perform(click());
     }
 }
 ```
