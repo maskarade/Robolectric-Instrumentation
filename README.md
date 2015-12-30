@@ -111,7 +111,7 @@ The third part of the version is the revision of this library.
 ## See Also
 
 * [Testing Fundamentals | Android Developers](http://developer.android.com/intl/ja/tools/testing/testing_android.html)
-*
+* [android.support.test | Android Developers](http://developer.android.com/reference/android/support/test/package-summary.html)
 
 ## Author
 
