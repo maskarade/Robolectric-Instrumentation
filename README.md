@@ -68,13 +68,22 @@ which provides Android Instrumentation Framework, i.e. JUnit4 runners and `Instr
 
 Not supported.
 
-## Install
+## Dependencies
+
+Depend on Robolectric-Instrumentation as `testCompile`, and `com.android.support.test:runner` as `androidTestCompile`.
+
+Both `testCompile ...` and `androidTestCompile ...` are required.
 
 ```gradle
 dependencies {
     testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.3'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'junit:junit:4.12'
 }
 ```
+
+
 
 ## Getting Started
 
