@@ -83,12 +83,10 @@ dependencies {
 }
 ```
 
-
-
 ## Getting Started
 
 Suppose your have an Android application project with `app` sub-project, which
-already have test suite with Robolectric.
+already have a test suite with Robolectric.
 
 First, you have to make a Robolectric configuration file as
 `app/src/test/resources/roblectric.properties` with the following contents:
@@ -101,7 +99,18 @@ constants=com.example.app.BuildConfig
 sdk=16
 ```
 
-Second, rewrite your test cases to use Android Instrumentation Framework, instead of raw Robolectric API.
+Second, set `testInstrumentationRunner` to `AndroidJUnitRunner` to run Android Instrumentation Tests with JUnit4.
+
+```gradle
+// app/build.gradle
+android {
+  defaultConfig {
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+  }
+}
+```
+
+Then, rewrite your test cases to use Android Instrumentation Framework, instead of raw Robolectric API.
 
 ```diff
 + @RunWith(AndroidJUnit4.class)
@@ -114,13 +123,17 @@ Second, rewrite your test cases to use Android Instrumentation Framework, instea
 - Context context = RuntimeEnvironment.application;
 ```
 
-Then, make a symlink to `androidTest`.
+Finally, make a symlink to `androidTest`.
 
 ```sh
 (cd app/src && ln -s test androidTest)
 ```
 
-Now you can run `./gradlew connectedAndroidTest`!
+Now you can run `./gradlew connectedAndroidTest`, as well as `./gradlew test`
+
+## Practical Examples
+
+* [Migration of the test suite to use Robolectric-Instrumentation by gfx · Pull Request #35 · gfx/Android-Helium](https://github.com/gfx/Android-Helium/pull/35)
 
 ## Versioning
 
