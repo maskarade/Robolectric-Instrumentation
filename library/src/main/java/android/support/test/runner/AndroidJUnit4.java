@@ -16,6 +16,7 @@
 
 package android.support.test.runner;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.runners.model.InitializationError;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
@@ -25,6 +26,7 @@ import org.robolectric.util.Logger;
 import org.robolectric.util.ReflectionHelpers;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -98,17 +100,27 @@ public class AndroidJUnit4 extends RobolectricGradleTestRunner {
             res = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "res");
         }
 
-        // Android JVM unit testing does not make build/intermediates/assets/*
-        if (FileFsFile.from(project, "src", "test", "assets").exists()) {
-            assets = FileFsFile.from(project, "src", "test", "assets");
+        if (FileFsFile.from(project, BUILD_OUTPUT, "assets").exists()) {
+            assets = FileFsFile.from(project, BUILD_OUTPUT, "assets", flavor, type);
         } else {
-            assets = FileFsFile.from(project, "src", "test", "res", "assets");
+            assets = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "assets");
         }
 
         if (FileFsFile.from(project, BUILD_OUTPUT, "manifests").exists()) {
             manifest = FileFsFile.from(project, BUILD_OUTPUT, "manifests", "full", flavor, type, "AndroidManifest.xml");
         } else {
             manifest = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "AndroidManifest.xml");
+        }
+
+        // Merges test assets into BUILD_OUTPUT
+        // because Android JVM unit testing does not handle test assets.
+        if (FileFsFile.from(project, "src", "test", "assets").exists()) {
+            FileFsFile testAssets = FileFsFile.from(project, "src", "test", "assets");
+            try {
+                FileUtils.copyDirectory(testAssets.getFile(), assets.getFile());
+            } catch (IOException e) {
+                // ignore
+            }
         }
 
         Logger.debug("Robolectric assets directory: " + assets.getPath());
