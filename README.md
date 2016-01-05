@@ -1,4 +1,4 @@
-# Robolectric Instrumentation [ ![Download](https://api.bintray.com/packages/gfx/maven/robolectric-instrumentation/images/download.svg) ](https://bintray.com/gfx/maven/robolectric-instrumentation/)
+# Robolectric Instrumentation [![Circle CI](https://circleci.com/gh/gfx/Robolectric-Instrumentation.svg?style=svg)](https://circleci.com/gh/gfx/Robolectric-Instrumentation) [ ![Download](https://api.bintray.com/packages/gfx/maven/robolectric-instrumentation/images/download.svg) ](https://bintray.com/gfx/maven/robolectric-instrumentation/)
 
 
 This is a wrapper for [Robolectric](http://robolectric.org/)
