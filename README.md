@@ -1,12 +1,10 @@
 # Robolectric Instrumentation [![Circle CI](https://circleci.com/gh/gfx/Robolectric-Instrumentation.svg?style=svg)](https://circleci.com/gh/gfx/Robolectric-Instrumentation) [ ![Download](https://api.bintray.com/packages/gfx/maven/robolectric-instrumentation/images/download.svg) ](https://bintray.com/gfx/maven/robolectric-instrumentation/)
 
-
-This is a wrapper for [Robolectric](http://robolectric.org/)
-to provide the interface of Android Instrumentation Testing Framework.
+This is an API wrapper for Android Instrumentation Testing Framework with [Robolectric](http://robolectric.org/).
 
 ## Synopsis
 
-Let it work on **Robolectric**, as well as Android Instrumentation Testing:
+Look at the following test case, `ExampleTest`, which works on JVM with **Robolectric**, as well as on Android Instrumentation Tests:
 
 ```java
 package com.github.gfx.android.robolectricinstrumentation;
@@ -53,36 +51,6 @@ public class ExampleTest {
 }
 ```
 
-## How It Works
-
-This library implements part of `com.android.support.test:runner:0.4.1`,
-which provides Android Instrumentation Framework, i.e. JUnit4 runners and `InstrumentationRegistry`.
-
-### Android Instrumentation Framework
-
-* `@RunWith(AndroidJUnit4.class)`
-* `InstrumentationRegistry.getTargetContext()`
-* `InstrumentationRegistry.getInstrumentation()`
-
-### Espresso
-
-Not supported.
-
-## Dependencies
-
-Depend on Robolectric-Instrumentation as `testCompile`, and `com.android.support.test:runner` as `androidTestCompile`.
-
-Both `testCompile ...` and `androidTestCompile ...` are required.
-
-```gradle
-dependencies {
-    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.6'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
-    androidTestCompile 'junit:junit:4.12'
-}
-```
-
 ## Getting Started
 
 Suppose your have an Android application project with `app` sub-project, which
@@ -123,13 +91,45 @@ Then, rewrite your test cases to use Android Instrumentation Framework, instead 
 - Context context = RuntimeEnvironment.application;
 ```
 
-Finally, make a symlink to `androidTest`.
+Finally, make a symlink of `test` to `androidTest`.
 
 ```sh
-(cd app/src && ln -s test androidTest)
+(cd "app/src" && ln -s "test" "androidTest")
 ```
 
 Now you can run `./gradlew connectedAndroidTest`, as well as `./gradlew test`
+
+## How It Works
+
+This library implements part of `com.android.support.test:runner:0.4.1`,
+which provides Android Instrumentation Framework, i.e. JUnit4 runners and `InstrumentationRegistry`.
+
+Here is the list of API supported by Robolectric-Instrumentation:
+
+### Android Instrumentation Framework
+
+* `@RunWith(AndroidJUnit4.class)`
+* `InstrumentationRegistry.getTargetContext()`
+* `InstrumentationRegistry.getInstrumentation()`
+
+### Espresso
+
+Not supported.
+
+## How To Manage Dependencies
+
+Depend on Robolectric-Instrumentation as `testCompile`, and `com.android.support.test:runner` as `androidTestCompile`.
+
+Both `testCompile ...` and `androidTestCompile ...` are required.
+
+```gradle
+dependencies {
+    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.0.6'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'junit:junit:4.12'
+}
+```
 
 ## Practical Examples
 
