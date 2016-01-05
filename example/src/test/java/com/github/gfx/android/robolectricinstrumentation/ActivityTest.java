@@ -5,11 +5,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -41,7 +45,6 @@ public class ActivityTest {
         assertThat(mainActivity, is(instanceOf(MainActivity.class)));
     }
 
-
     @Test
     public void testPerformClick() throws Exception {
         // NOTE: android.support.test.espresso.base.QueueInterrogator calls MessageQueue#next() via reflection,
@@ -53,7 +56,21 @@ public class ActivityTest {
     }
 
     @Test
-    public void testListView() throws Exception {
+    public void testInstrumentationWaitForIdleSync() throws Exception {
+        Handler handler = new Handler(Looper.getMainLooper());
+        final AtomicInteger i = new AtomicInteger();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                i.incrementAndGet();
+            }
+        });
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        assertThat(i.get(), is(1));
+    }
+
+    @Test
+    public void testInstrumentationRunOnMainSync() throws Exception {
         Activity activity = mainActivityRule.getActivity();
         final ListView listView = (ListView) activity.findViewById(R.id.list);
 
@@ -67,7 +84,6 @@ public class ActivityTest {
                 listView.setAdapter(adapter);
             }
         });
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         populateItems(listView);
         assertThat(listView.getChildCount(), is(2));
     }

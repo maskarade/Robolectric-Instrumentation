@@ -18,12 +18,15 @@ package android.support.test;
 
 import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.shadows.ShadowLooper;
 
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.test.internal.runner.lifecycle.ActivityLifecycleMonitorImpl;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
@@ -99,13 +102,14 @@ public class InstrumentationRegistry {
         }
 
         @Override
-        public void runOnMainSync(@NonNull Runnable runner) {
-            runner.run();
+        public void runOnMainSync(@NonNull Runnable task) {
+            new Handler(Looper.getMainLooper()).post(task);
+            ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
         }
 
         @Override
         public void waitForIdleSync() {
-            // nop
+          ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
         }
 
         @Override
