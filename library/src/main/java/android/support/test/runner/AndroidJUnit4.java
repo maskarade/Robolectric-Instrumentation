@@ -67,9 +67,9 @@ public class AndroidJUnit4 extends RobolectricGradleTestRunner {
             if (packageName != null && !packageName.isEmpty()) {
                 return packageName;
             } else {
-                return ReflectionHelpers.getStaticField(config.constants(), "APPLICATION_ID");
+                return config.constants().getPackage().getName();
             }
-        } catch (Throwable e) {
+        } catch (Exception e) {
             return null;
         }
     }
