@@ -14,7 +14,7 @@ sourceSets {
 dependencies {
     provided 'org.robolectric:android-all:5.1.1_r9-robolectric-1'
     testCompile 'org.robolectric:android-all:5.1.1_r9-robolectric-1'
-    compile 'com.android.support:support-annotations:23.1.1'
+    provided 'com.android.support:support-annotations:23.1.1'
     compile 'junit:junit:4.12'
     compile 'org.robolectric:robolectric:3.0'
     compile 'commons-io:commons-io:2.4'

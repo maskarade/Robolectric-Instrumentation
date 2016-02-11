@@ -131,6 +131,13 @@ dependencies {
 }
 ```
 
+## Logging
+
+`-Drobolectric.logging=stdout` for `android.util.Log`.
+
+`-Drobolectric.logging.enabled=true` for Robolectric itself.
+
+
 ## Practical Examples
 
 * [Migration of the test suite to use Robolectric-Instrumentation by gfx · Pull Request #35 · gfx/Android-Helium](https://github.com/gfx/Android-Helium/pull/35)
