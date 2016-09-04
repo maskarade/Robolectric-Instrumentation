@@ -146,9 +146,9 @@ dependencies {
 
 This library does not adopt semantic versioning. Rather, the first two
 parts indicate the compatible version of Robolectric. That is,
-this version is currently compatible with Robolectric v3.0.
+v3.1.x of this library is compatible with Robolectric v3.1.y.
 
-The third part of the version is the revision of this library.
+The last part of the version is the revision of this library.
 
 ## See Also
 

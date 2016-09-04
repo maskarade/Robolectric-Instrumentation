@@ -18,7 +18,8 @@ package android.support.test.runner;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.runners.model.InitializationError;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.ManifestFactory;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.FileFsFile;
@@ -30,12 +31,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * <p>An {@link AndroidJUnit4} implementation with {@link RobolectricGradleTestRunner}.</p>
+ * <p>An {@link AndroidJUnit4} implementation with {@link RobolectricTestRunner}.</p>
  * <p>The {@code project} configuration must be set in {@code robolectric.properties}</p>
  *
  * <p>Usage: {@code @RunWith(AndroidJUnit4.class)}</p>
  */
-public class AndroidJUnit4 extends RobolectricGradleTestRunner {
+public class AndroidJUnit4 extends RobolectricTestRunner {
 
     private static final String BUILD_OUTPUT = "build/intermediates";
 
@@ -45,103 +46,8 @@ public class AndroidJUnit4 extends RobolectricGradleTestRunner {
         super(testClass);
     }
 
-    private static String getType(Config config) {
-        try {
-            return ReflectionHelpers.getStaticField(config.constants(), "BUILD_TYPE");
-        } catch (Throwable e) {
-            return null;
-        }
-    }
-
-    private static String getFlavor(Config config) {
-        try {
-            return ReflectionHelpers.getStaticField(config.constants(), "FLAVOR");
-        } catch (Throwable e) {
-            return null;
-        }
-    }
-
-    private static String getPackageName(Config config) {
-        try {
-            final String packageName = config.packageName();
-            if (packageName != null && !packageName.isEmpty()) {
-                return packageName;
-            } else {
-                return config.constants().getPackage().getName();
-            }
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Override
     protected AndroidManifest getAppManifest(Config config) {
-        if (config.constants() == null || config.constants().equals(Void.class)) {
-            return null;
-        }
-
-        String project = guessProjectDir();
-
-        // Same as RobolectricGradleRunner#getAppManifest() except for this version can handle the "project" directry
-
-        final String type = getType(config);
-        final String flavor = getFlavor(config);
-        final String packageName = getPackageName(config);
-
-        final FileFsFile res;
-        final FileFsFile assets;
-        final FileFsFile manifest;
-
-        if (FileFsFile.from(project, BUILD_OUTPUT, "res", "merged").exists()) {
-            res = FileFsFile.from(project, BUILD_OUTPUT, "res", "merged", flavor, type);
-        } else if (FileFsFile.from(project, BUILD_OUTPUT, "res").exists()) {
-            res = FileFsFile.from(project, BUILD_OUTPUT, "res", flavor, type);
-        } else {
-            res = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "res");
-        }
-
-        if (FileFsFile.from(project, BUILD_OUTPUT, "assets").exists()) {
-            assets = FileFsFile.from(project, BUILD_OUTPUT, "assets", flavor, type);
-        } else {
-            assets = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "assets");
-        }
-
-        if (FileFsFile.from(project, BUILD_OUTPUT, "manifests").exists()) {
-            manifest = FileFsFile.from(project, BUILD_OUTPUT, "manifests", "full", flavor, type, "AndroidManifest.xml");
-        } else {
-            manifest = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "AndroidManifest.xml");
-        }
-
-        // Merges test assets into BUILD_OUTPUT
-        // because Android JVM unit testing does not handle test assets.
-        if (FileFsFile.from(project, "src", "test", "assets").exists()) {
-            FileFsFile testAssets = FileFsFile.from(project, "src", "test", "assets");
-            try {
-                FileUtils.copyDirectory(testAssets.getFile(), assets.getFile());
-            } catch (IOException e) {
-                // ignore
-            }
-        }
-
-        Logger.debug("Robolectric assets directory: " + assets.getPath());
-        Logger.debug("   Robolectric res directory: " + res.getPath());
-        Logger.debug("   Robolectric manifest path: " + manifest.getPath());
-        Logger.debug("    Robolectric package name: " + packageName);
-        return new AndroidManifest(manifest, res, assets, packageName);
-    }
-
-    protected String guessProjectDir() {
-        String workingDir = System.getProperty("user.dir");
-        String project = getConfigProperties().getProperty("project");
-
-        if (project != null) {
-            File projectFile = new File(workingDir, project);
-            if (projectFile.exists()) {
-                return projectFile.getAbsolutePath();
-            }
-        }
-
-        return workingDir;
+        return new MyManifestFactory(config).create();
     }
 
     @Override
@@ -152,4 +58,111 @@ public class AndroidJUnit4 extends RobolectricGradleTestRunner {
         return configProperties;
     }
 
+    private class MyManifestFactory extends ManifestFactory {
+
+        private final Config config;
+
+        MyManifestFactory(Config config) {
+            this.config = config;
+        }
+
+        protected String guessProjectDir() {
+            String workingDir = System.getProperty("user.dir");
+            String project = getConfigProperties().getProperty("project");
+
+            if (project != null) {
+                File projectFile = new File(workingDir, project);
+                if (projectFile.exists()) {
+                    return projectFile.getAbsolutePath();
+                }
+            }
+
+            return workingDir;
+        }
+
+        private String getType(Config config) {
+            try {
+                return ReflectionHelpers.getStaticField(config.constants(), "BUILD_TYPE");
+            } catch (Throwable e) {
+                return null;
+            }
+        }
+
+        private String getFlavor(Config config) {
+            try {
+                return ReflectionHelpers.getStaticField(config.constants(), "FLAVOR");
+            } catch (Throwable e) {
+                return null;
+            }
+        }
+
+        private String getPackageName(Config config) {
+            try {
+                final String packageName = config.packageName();
+                if (packageName != null && !packageName.isEmpty()) {
+                    return packageName;
+                } else {
+                    return config.constants().getPackage().getName();
+                }
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        @Override
+        public AndroidManifest create() {
+            if (config.constants() == null || config.constants().equals(Void.class)) {
+                return ManifestFactory.newManifestFactory(config).create();
+            }
+
+            String project = guessProjectDir();
+
+            // Same as RobolectricGradleRunner#getAppManifest() except for this version can handle the "project" directry
+
+            final String type = getType(config);
+            final String flavor = getFlavor(config);
+            final String packageName = getPackageName(config);
+
+            final FileFsFile res;
+            final FileFsFile assets;
+            final FileFsFile manifest;
+
+            if (FileFsFile.from(project, BUILD_OUTPUT, "res", "merged").exists()) {
+                res = FileFsFile.from(project, BUILD_OUTPUT, "res", "merged", flavor, type);
+            } else if (FileFsFile.from(project, BUILD_OUTPUT, "res").exists()) {
+                res = FileFsFile.from(project, BUILD_OUTPUT, "res", flavor, type);
+            } else {
+                res = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "res");
+            }
+
+            if (FileFsFile.from(project, BUILD_OUTPUT, "assets").exists()) {
+                assets = FileFsFile.from(project, BUILD_OUTPUT, "assets", flavor, type);
+            } else {
+                assets = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "assets");
+            }
+
+            if (FileFsFile.from(project, BUILD_OUTPUT, "manifests").exists()) {
+                manifest = FileFsFile.from(project, BUILD_OUTPUT, "manifests", "full", flavor, type, "AndroidManifest.xml");
+            } else {
+                manifest = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "AndroidManifest.xml");
+            }
+
+            // Merges test assets into BUILD_OUTPUT
+            // because Android JVM unit testing does not handle test assets.
+            if (FileFsFile.from(project, "src", "test", "assets").exists()) {
+                FileFsFile testAssets = FileFsFile.from(project, "src", "test", "assets");
+                try {
+                    FileUtils.copyDirectory(testAssets.getFile(), assets.getFile());
+                } catch (IOException e) {
+                    // ignore
+                }
+            }
+
+            Logger.debug("Robolectric assets directory: " + assets.getPath());
+            Logger.debug("   Robolectric res directory: " + res.getPath());
+            Logger.debug("   Robolectric manifest path: " + manifest.getPath());
+            Logger.debug("    Robolectric package name: " + packageName);
+            return new AndroidManifest(manifest, res, assets, packageName);
+        }
+    }
 }
