@@ -1,5 +1,9 @@
 # The Revision History of Robolectric-Instrumentation
 
+## v3.1.2 2016/09/04
+
+* Robolectric 3.1.2 support
+
 ## v3.1.0 2016/06/09
 
 * Robolectric 3.1 suuport
