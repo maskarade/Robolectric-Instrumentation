@@ -37,7 +37,7 @@ public class ActivityTest {
     }
 
     @Rule
-    public ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(MainActivity.class);
+    public final ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void testCreateActivity() throws Exception {

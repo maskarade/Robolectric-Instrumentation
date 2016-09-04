@@ -141,8 +141,10 @@ public class AndroidJUnit4 extends RobolectricTestRunner {
                 assets = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "assets");
             }
 
-            if (FileFsFile.from(project, BUILD_OUTPUT, "manifests").exists()) {
+            if (FileFsFile.from(project, BUILD_OUTPUT, "manifests", "full").exists()) {
                 manifest = FileFsFile.from(project, BUILD_OUTPUT, "manifests", "full", flavor, type, "AndroidManifest.xml");
+            } else if (FileFsFile.from(project, BUILD_OUTPUT, "manifests", "aapt").exists()) {
+                    manifest = FileFsFile.from(project, BUILD_OUTPUT, "manifests", "aapt", flavor, type, "AndroidManifest.xml");
             } else {
                 manifest = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "AndroidManifest.xml");
             }
