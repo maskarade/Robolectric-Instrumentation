@@ -5,7 +5,11 @@ apply from: project.file('metadata.gradle')
 final ANDROID_SUPPORT_REPOSITORY = {
     // to use android support libraries in Java projects
     final localProperties = new Properties()
-    localProperties.load(new FileInputStream("${project.rootProject.projectDir}/local.properties"))
+    try {
+        localProperties.load(new FileInputStream("${project.rootProject.projectDir}/local.properties"))
+    } catch (FileNotFoundException e) {
+        // ignore errors
+    }
     def androidSdkPath = localProperties['sdk.dir'] ?: System.getenv('ANDROID_HOME')
     if (!androidSdkPath) {
         throw new RuntimeException("Missing local.properties")
@@ -18,7 +22,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.0-rc1'
         classpath 'com.novoda:bintray-release:0.3.4' // https://github.com/novoda/bintray-release
     }
 }
