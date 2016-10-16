@@ -101,7 +101,7 @@ Now you can run `./gradlew connectedAndroidTest`, as well as `./gradlew test`
 
 ## How It Works
 
-This library implements part of `com.android.support.test:runner:0.4.1`,
+This library implements part of `com.android.support.test:runner:0.5`,
 which provides Android Instrumentation Framework, i.e. JUnit4 runners and `InstrumentationRegistry`.
 
 Here is the list of API supported by Robolectric-Instrumentation:
@@ -124,9 +124,9 @@ Both `testCompile ...` and `androidTestCompile ...` are required.
 
 ```gradle
 dependencies {
-    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.1.0'
+    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.1.2-2'
     testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'junit:junit:4.12'
 }
 ```
