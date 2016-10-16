@@ -40,7 +40,7 @@ public class AndroidJUnit4 extends RobolectricTestRunner {
 
     private static final String BUILD_OUTPUT = "build/intermediates";
 
-    Properties configProperties;
+    private Properties configProperties;
 
     public AndroidJUnit4(Class<?> testClass) throws InitializationError {
         super(testClass);
@@ -66,7 +66,7 @@ public class AndroidJUnit4 extends RobolectricTestRunner {
             this.config = config;
         }
 
-        protected String guessProjectDir() {
+        String guessProjectDir() {
             String workingDir = System.getProperty("user.dir");
             String project = getConfigProperties().getProperty("project");
 
@@ -99,7 +99,7 @@ public class AndroidJUnit4 extends RobolectricTestRunner {
         private String getPackageName(Config config) {
             try {
                 final String packageName = config.packageName();
-                if (packageName != null && !packageName.isEmpty()) {
+                if (!packageName.isEmpty()) {
                     return packageName;
                 } else {
                     return config.constants().getPackage().getName();
@@ -111,7 +111,7 @@ public class AndroidJUnit4 extends RobolectricTestRunner {
 
         @Override
         public AndroidManifest create() {
-            if (config.constants() == null || config.constants().equals(Void.class)) {
+            if (config.constants().equals(Void.class)) {
                 return ManifestFactory.newManifestFactory(config).create();
             }
 
@@ -144,7 +144,7 @@ public class AndroidJUnit4 extends RobolectricTestRunner {
             if (FileFsFile.from(project, BUILD_OUTPUT, "manifests", "full").exists()) {
                 manifest = FileFsFile.from(project, BUILD_OUTPUT, "manifests", "full", flavor, type, "AndroidManifest.xml");
             } else if (FileFsFile.from(project, BUILD_OUTPUT, "manifests", "aapt").exists()) {
-                    manifest = FileFsFile.from(project, BUILD_OUTPUT, "manifests", "aapt", flavor, type, "AndroidManifest.xml");
+                manifest = FileFsFile.from(project, BUILD_OUTPUT, "manifests", "aapt", flavor, type, "AndroidManifest.xml");
             } else {
                 manifest = FileFsFile.from(project, BUILD_OUTPUT, "bundles", flavor, type, "AndroidManifest.xml");
             }
@@ -160,11 +160,47 @@ public class AndroidJUnit4 extends RobolectricTestRunner {
                 }
             }
 
+            // Merges AAR's assets int BUILD_OUTPUT
+            File explodedAar = FileFsFile.from(project, BUILD_OUTPUT, "exploded-aar").getFile();
+            if (explodedAar.exists()) {
+                forEachFile(explodedAar, new Action1<File>() {
+                    @Override
+                    public void call(File file) {
+                        if (file.isDirectory() && file.getName().equals("assets")) {
+                            try {
+                                FileUtils.copyDirectory(file, assets.getFile());
+                            } catch (IOException e) {
+                                // ignore
+                            }
+                        }
+                    }
+                });
+            }
+
             Logger.debug("Robolectric assets directory: " + assets.getPath());
             Logger.debug("   Robolectric res directory: " + res.getPath());
             Logger.debug("   Robolectric manifest path: " + manifest.getPath());
             Logger.debug("    Robolectric package name: " + packageName);
             return new AndroidManifest(manifest, res, assets, packageName);
         }
+    }
+
+    private static void forEachFile(File dir, Action1<File> action) {
+        File[] list = dir.listFiles();
+        if (list == null) {
+            return;
+        }
+        for (File file : list) {
+            action.call(file);
+
+            if (file.isDirectory()) {
+                forEachFile(file, action);
+            }
+        }
+    }
+
+    interface Action1<T> {
+
+        void call(T t);
     }
 }
