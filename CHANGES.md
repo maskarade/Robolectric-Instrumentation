@@ -1,5 +1,9 @@
 # The Revision History of Robolectric-Instrumentation
 
+## v3.1.4 2016/11/16
+
+* Upgrade Robolectric to v3.1.4
+
 ## v3.1.2-2 2016/10/16
 
 * Copy AAR's assets into build directories

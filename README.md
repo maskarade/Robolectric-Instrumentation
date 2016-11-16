@@ -124,7 +124,7 @@ Both `testCompile ...` and `androidTestCompile ...` are required.
 
 ```gradle
 dependencies {
-    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.1.2-2'
+    testCompile 'com.github.gfx.android.robolectricinstrumentation:robolectric-instrumentation:3.1.4'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'junit:junit:4.12'
