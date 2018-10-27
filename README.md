@@ -1,3 +1,9 @@
+Robolectric-Instrumentation is obsolete. Use Robolectric 4.0 which has the same functionality as this project:
+
+http://robolectric.org/blog/2018/10/25/robolectric-4-0/
+
+---
+
 # Robolectric Instrumentation [![Circle CI](https://circleci.com/gh/gfx/Robolectric-Instrumentation.svg?style=svg)](https://circleci.com/gh/gfx/Robolectric-Instrumentation) [ ![Download](https://api.bintray.com/packages/gfx/maven/robolectric-instrumentation/images/download.svg) ](https://bintray.com/gfx/maven/robolectric-instrumentation/)
 
 This is an API wrapper for Android Instrumentation Testing Framework with [Robolectric](http://robolectric.org/).
